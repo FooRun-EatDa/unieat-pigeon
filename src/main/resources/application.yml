@@ -3,3 +3,7 @@ spring:
     include:
       - datasource
       - mail
+
+server:
+  servlet:
+    context-path: /pigeon
