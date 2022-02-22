@@ -7,11 +7,29 @@ import lombok.ToString;
 import org.springframework.mail.SimpleMailMessage;
 
 import java.util.Date;
+import java.util.Map;
 
 @Getter
 @Setter
 @ToString(callSuper = true)
 public class EmailPayload extends SimpleMailMessage implements Payload {
+    /**
+     * 별도의 HTML 템플릿 사용 여부
+     */
+    private boolean useTemplate = false;
+
+    /**
+     * 사용할 이메일 템플릿명(디렉토리를 포함한 HTML 파일 경로)<br />
+     * ex) ${RESOURCE_SERVER_HOST}/${RESOURCE_SERVER_BASE_URI}/email/verification-email.html 일 경우<br />
+     *  Template Resolver 설정의 Prefix, Suffix 를 제외한 --> email/verification-email
+     */
+    private String templateName;
+
+    /**
+     * 이메일 템플릿에 Binding 할 파라미터
+     */
+    private Map<String, Object> properties;
+
     @Override
     public void setFrom(String from) {
         super.setFrom(from);
