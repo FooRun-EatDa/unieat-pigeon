@@ -1,9 +1,11 @@
 package com.foorun.unieat.pigeon.controller;
 
-import com.foorun.unieat.pigeon.producer.EmailProducer;
+import com.foorun.unieat.pigeon.domain.common.ApiResponse;
 import com.foorun.unieat.pigeon.domain.email.EmailPayload;
+import com.foorun.unieat.pigeon.producer.EmailProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +20,9 @@ public class EmailController {
     private final EmailProducer emailProducer;
 
     @PostMapping("/single")
-    public void post(@RequestBody EmailPayload payload) {
+    public ResponseEntity<ApiResponse<Void>> post(@RequestBody EmailPayload payload) {
         emailProducer.produce(payload);
+        return ResponseEntity.ok(ApiResponse.success());
     }
 
     @PostMapping("/multi")
