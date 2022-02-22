@@ -3,6 +3,9 @@ spring:
     include:
       - datasource
       - mail
+  thymeleaf:
+    prefix: ${FOORUN_PIGEON_EMAIL_TEMPLATE_BASE_URL}
+    suffix: .html
 
 server:
   servlet:
