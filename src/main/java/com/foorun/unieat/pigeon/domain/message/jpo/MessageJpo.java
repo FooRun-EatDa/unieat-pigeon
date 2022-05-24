@@ -38,8 +38,7 @@ public class MessageJpo implements Persistable<Long> {
     @Column(name = "is_read")
     private boolean read = false;
 
-    @Builder.Default
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @Override
     public Long getId() {
