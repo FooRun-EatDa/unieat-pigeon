@@ -4,3 +4,8 @@ spring:
     username: ${FOORUN_DB_USERNAME}
     password: ${FOORUN_DB_PASSWORD}
     driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
