@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,15 +16,15 @@ import java.util.Objects;
 @RestController
 @RequiredArgsConstructor
 public class MessageController {
-    private final SimpMessageSendingOperations simpMessagingTemplate;
+    private final SimpMessagingTemplate simpMessagingTemplate;
     private final MessageRepository messageRepository;
 
     @MessageMapping("/one-to-one")
-    public void greeting(@Payload Message<StompMessage> message, StompHeaderAccessor stompHeaderAccessor) {
+    public void oneToOne(@Payload Message<StompMessage> message, StompHeaderAccessor stompHeaderAccessor) {
         StompMessage stompMessage = message.getPayload();
         MessageJpo messageJpo = stompMessage.asJpo(getHeaderSenderId(stompHeaderAccessor));
         messageRepository.save(messageJpo);
-        simpMessagingTemplate.convertAndSend(String.format("/user/queue/message/%d", stompMessage.getReceiverMemberId()), stompMessage);
+        simpMessagingTemplate.convertAndSend(String.format("/user/queue/message/%d", stompMessage.getReceiverMemberId()), message.getPayload());
     }
 
     private long getHeaderSenderId(StompHeaderAccessor stompHeaderAccessor) {
